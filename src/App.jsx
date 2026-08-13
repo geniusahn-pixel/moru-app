@@ -1,8 +1,17 @@
-import { useState } from 'react'
-import { useStore } from './store.js'
+import { useEffect, useState } from 'react'
+import { useAuth } from './auth.jsx'
+import {
+  useStore,
+  loadFromServer,
+  startRealtime,
+  stopRealtime,
+  setSessionUser,
+  resetData,
+} from './store.js'
 import Dashboard from './views/Dashboard.jsx'
 import Books from './views/Books.jsx'
 import Meetings from './views/Meetings.jsx'
+import Auth from './views/Auth.jsx'
 
 const TABS = [
   { key: 'home', label: '홈', ico: '🏠' },
@@ -11,23 +20,74 @@ const TABS = [
 ]
 
 export default function App() {
-  const [data, update] = useStore()
+  const { user, loading, configured, signOut } = useAuth()
   const [tab, setTab] = useState('home')
-  // 다른 탭에서 특정 책 상세를 열도록 요청하는 신호
   const [pendingBook, setPendingBook] = useState(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [data, update] = useStore()
+
+  // 로그인 상태에 따라 서버 동기화 시작/정리
+  useEffect(() => {
+    if (user) {
+      setSessionUser(user.id)
+      loadFromServer()
+      startRealtime()
+    } else {
+      stopRealtime()
+      setSessionUser(null)
+      resetData()
+    }
+    return () => stopRealtime()
+  }, [user])
 
   const openBook = (id) => {
     setPendingBook(id)
     setTab('books')
   }
 
+  if (loading) {
+    return (
+      <div className="splash">
+        <div className="auth-logo">📖</div>
+      </div>
+    )
+  }
+
+  // 미로그인(또는 설정 없음) → 로그인 화면
+  if (!configured || !user) {
+    return <Auth />
+  }
+
   return (
     <div className="app">
       <header className="app-header">
-        <span className="logo">📚</span>
-        <div>
-          <h1>모루 독서 기록장</h1>
+        <span className="logo">📖</span>
+        <div style={{ flex: 1 }}>
+          <h1>온북</h1>
           <div className="sub">함께 읽고, 함께 기록해요</div>
+        </div>
+        <div className="account">
+          <button
+            className="btn sm ghost"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="계정"
+          >
+            👤
+          </button>
+          {menuOpen && (
+            <div className="menu card" onMouseLeave={() => setMenuOpen(false)}>
+              <div className="menu-email">{user.email}</div>
+              <button
+                className="btn danger sm block"
+                onClick={async () => {
+                  setMenuOpen(false)
+                  await signOut()
+                }}
+              >
+                로그아웃
+              </button>
+            </div>
+          )}
         </div>
       </header>
 

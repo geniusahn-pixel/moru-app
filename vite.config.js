@@ -15,8 +15,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['apple-touch-icon.png'],
       manifest: {
-        name: '모루 독서 기록장',
-        short_name: '모루',
+        name: '온북 · 독서모임 기록장',
+        short_name: '온북',
         description: '독서모임을 위한 독서 기록장',
         lang: 'ko',
         start_url: '.',
