@@ -10,8 +10,8 @@
 //   - Project API keys의 "anon public" 키 → SUPABASE_ANON_KEY
 // ─────────────────────────────────────────────────────────────
 
-export const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co'
-export const SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY'
+export const SUPABASE_URL = 'https://ognsodnpkrasccvhvydq.supabase.co'
+export const SUPABASE_ANON_KEY = 'sb_publishable_Ta6wbd8pzKjDwfn-w1SwRQ_nF4ztkiT'
 
 // 설정이 실제로 채워졌는지 여부 (플레이스홀더면 false)
 export const isSupabaseConfigured =
