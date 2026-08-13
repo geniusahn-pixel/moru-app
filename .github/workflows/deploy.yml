@@ -32,7 +32,11 @@ jobs:
         run: npm run build
         env:
           PAGES: '1'
-      - uses: actions/configure-pages@v5
+      - name: Configure Pages (없으면 자동 활성화)
+        uses: actions/configure-pages@v5
+        with:
+          # 저장소 설정을 직접 안 켜도 워크플로가 Pages를 자동 활성화(GitHub Actions 소스)
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
