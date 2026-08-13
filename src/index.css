@@ -82,6 +82,10 @@ select {
   align-items: center;
   gap: 10px;
 }
+.app-header .app-title {
+  flex: 1;
+  min-width: 0;
+}
 .app-header h1 {
   font-size: 20px;
   margin: 0;
@@ -94,6 +98,34 @@ select {
   font-size: 12px;
   color: var(--text-faint);
   margin-top: 2px;
+}
+
+/* 큰글씨(키오스크) 모드 전환 버튼 */
+.mode-toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  transition: transform 0.08s, background 0.15s, border-color 0.15s;
+}
+.mode-toggle:active {
+  transform: scale(0.96);
+}
+.mode-toggle.on {
+  background: var(--primary);
+  color: var(--primary-text);
+  border-color: transparent;
+}
+.mode-toggle .mode-ico {
+  font-size: 17px;
 }
 
 /* ── 하단 탭바 ─────────────────────────────── */
@@ -571,4 +603,405 @@ select {
   border-radius: var(--radius-sm);
   background: var(--surface-2);
   margin-top: 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   고령층 친화 키오스크(큰글씨) 모드
+   - 전체 앱을 크게 키우고, 대비를 높이고, 여백을 넉넉히
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 큰글씨 모드에서 색 대비를 조금 더 강하게 */
+.kiosk {
+  --text-dim: #4b4b5a;
+  --text-faint: #5c5c6e;
+  --border: #cfcfe0;
+}
+@media (prefers-color-scheme: dark) {
+  .kiosk {
+    --text-dim: #c4c4d4;
+    --text-faint: #b0b0c2;
+    --border: #43435a;
+  }
+}
+
+.kiosk {
+  max-width: 860px;
+  padding-bottom: 128px;
+}
+
+/* 헤더도 크게 */
+.kiosk .app-header {
+  padding: 26px 4px 16px;
+  gap: 14px;
+}
+.kiosk .app-header .logo {
+  font-size: 34px;
+}
+.kiosk .app-header h1 {
+  font-size: 27px;
+}
+.kiosk .app-header .sub {
+  font-size: 16px;
+}
+.kiosk .mode-toggle {
+  padding: 14px 20px;
+  font-size: 19px;
+  gap: 8px;
+}
+.kiosk .mode-toggle .mode-ico {
+  font-size: 22px;
+}
+
+/* 하단 탭바: 큰 아이콘 + 큰 글씨 + 큰 터치 영역 */
+.kiosk-body .tabbar,
+.kiosk .tabbar {
+  gap: 8px;
+  padding: 12px 12px calc(14px + env(safe-area-inset-bottom));
+}
+.kiosk-body .tabbar button {
+  max-width: 200px;
+  gap: 6px;
+  padding: 12px 8px;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 16px;
+}
+.kiosk-body .tabbar button .ico {
+  font-size: 32px;
+}
+.kiosk-body .tabbar button.active {
+  background: var(--primary-dim);
+}
+
+/* 공용 요소도 살짝 크게 (내 서재/모임 화면까지 함께 커짐) */
+.kiosk .section-title {
+  font-size: 21px;
+  margin: 28px 4px 14px;
+}
+.kiosk .btn {
+  padding: 14px 20px;
+  font-size: 18px;
+  border-radius: 14px;
+}
+.kiosk .btn.sm {
+  padding: 10px 14px;
+  font-size: 16px;
+}
+.kiosk .field label {
+  font-size: 16px;
+}
+.kiosk .field input,
+.kiosk .field textarea,
+.kiosk .field select {
+  font-size: 19px;
+  padding: 14px 15px;
+}
+.kiosk .book-info .t {
+  font-size: 19px;
+}
+.kiosk .book-info .a,
+.kiosk .book-info .meta {
+  font-size: 15px;
+}
+.kiosk .cover {
+  width: 58px;
+  height: 78px;
+  font-size: 32px;
+}
+
+/* ── 키오스크 홈 대시보드 ─────────────────────── */
+.kiosk-home {
+  margin-top: 8px;
+}
+
+/* 인사 + 목표 달성률 배너 */
+.k-hello {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+}
+.k-hello-main {
+  flex: 1;
+  min-width: 0;
+}
+.k-greet {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.k-today {
+  font-size: 19px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  font-weight: 600;
+}
+.k-goal {
+  flex-shrink: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: var(--primary-dim);
+  border-radius: 18px;
+  padding: 14px 18px;
+}
+.k-goal-pct {
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1;
+}
+.k-goal-cap {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.15;
+}
+
+/* 큰 숫자 요약 3칸 */
+.k-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.k-stat {
+  padding: 22px 12px 18px;
+  text-align: center;
+}
+.k-stat-ico {
+  font-size: 34px;
+  line-height: 1;
+}
+.k-stat-num {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-top: 6px;
+  line-height: 1;
+}
+.k-stat-lab {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+.k-section-title {
+  font-size: 23px;
+  font-weight: 800;
+  margin: 30px 4px 14px;
+  letter-spacing: -0.02em;
+}
+
+/* 지금 읽는 책 (큰 카드 버튼) */
+.k-book {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  text-align: left;
+  padding: 22px;
+  background: var(--surface);
+  color: var(--text);
+  transition: transform 0.08s, background 0.15s;
+}
+.k-book:active {
+  transform: scale(0.99);
+  background: var(--surface-2);
+}
+.k-book-cover {
+  width: 88px;
+  height: 118px;
+  border-radius: 12px;
+  background: var(--primary-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.k-book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.k-book-body {
+  flex: 1;
+  min-width: 0;
+}
+.k-book-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.k-book-author {
+  font-size: 18px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  font-weight: 600;
+}
+.k-progress {
+  height: 14px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  overflow: hidden;
+  margin-top: 14px;
+  border: 1px solid var(--border);
+}
+.k-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+  border-radius: 8px;
+  transition: width 0.3s;
+}
+.k-progress-lab {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+.k-book-go {
+  flex-shrink: 0;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--text-faint);
+  line-height: 1;
+}
+
+/* 다음 모임 (큰 카드 버튼) */
+.k-meeting {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  text-align: left;
+  padding: 22px;
+  color: var(--text);
+  transition: transform 0.08s, background 0.15s;
+}
+.k-meeting:active {
+  transform: scale(0.99);
+  background: var(--surface-2);
+}
+.k-dday {
+  flex-shrink: 0;
+  min-width: 92px;
+  text-align: center;
+  background: var(--primary);
+  color: var(--primary-text);
+  border-radius: 16px;
+  padding: 16px 12px;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.k-meeting-body {
+  flex: 1;
+  min-width: 0;
+}
+.k-meeting-title {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.k-meeting-meta {
+  font-size: 18px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  font-weight: 600;
+}
+.k-meeting-book {
+  font-size: 17px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 빈 상태 안내 */
+.k-empty {
+  padding: 28px 24px;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  text-align: center;
+  font-weight: 600;
+}
+.k-empty b {
+  color: var(--primary);
+}
+
+/* 큰 메뉴 버튼 2칸 */
+.k-menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.k-menu-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 28px 16px;
+  color: var(--text);
+  text-align: center;
+  transition: transform 0.08s, background 0.15s;
+}
+.k-menu-btn:active {
+  transform: scale(0.98);
+  background: var(--surface-2);
+}
+.k-menu-ico {
+  font-size: 46px;
+  line-height: 1;
+}
+.k-menu-lab {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-top: 8px;
+}
+.k-menu-sub {
+  font-size: 16px;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+/* 좁은 화면 대응 */
+@media (max-width: 560px) {
+  .k-hello {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .k-goal {
+    justify-content: center;
+  }
+  .k-stat-num {
+    font-size: 40px;
+  }
+  .k-book-cover {
+    width: 72px;
+    height: 96px;
+    font-size: 38px;
+  }
+  .k-book-title {
+    font-size: 22px;
+  }
 }
