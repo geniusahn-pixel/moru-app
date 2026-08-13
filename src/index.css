@@ -1,0 +1,574 @@
+:root {
+  --bg: #f6f6fb;
+  --surface: #ffffff;
+  --surface-2: #f0f0f7;
+  --border: #e6e6ef;
+  --text: #1c1c28;
+  --text-dim: #6b6b7b;
+  --text-faint: #9a9aac;
+  --primary: #7c5cff;
+  --primary-dim: #efeaff;
+  --primary-text: #ffffff;
+  --danger: #e5484d;
+  --star: #f5a623;
+  --shadow: 0 1px 2px rgba(28, 28, 40, 0.06), 0 8px 24px rgba(28, 28, 40, 0.05);
+  --radius: 16px;
+  --radius-sm: 10px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131318;
+    --surface: #1c1c24;
+    --surface-2: #24242e;
+    --border: #2e2e3a;
+    --text: #ececf2;
+    --text-dim: #a0a0b0;
+    --text-faint: #6c6c7c;
+    --primary: #9d84ff;
+    --primary-dim: #2a2440;
+    --primary-text: #ffffff;
+    --danger: #ff6369;
+    --star: #ffb84d;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Pretendard', 'Malgun Gothic', 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: 15px;
+}
+
+/* ── 레이아웃 ─────────────────────────────── */
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px 96px;
+  min-height: 100%;
+}
+
+.app-header {
+  padding: 22px 4px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.app-header h1 {
+  font-size: 20px;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+.app-header .logo {
+  font-size: 26px;
+}
+.app-header .sub {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+/* ── 하단 탭바 ─────────────────────────────── */
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: saturate(1.2) blur(12px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+  z-index: 20;
+}
+.tabbar button {
+  flex: 1;
+  max-width: 120px;
+  border: none;
+  background: transparent;
+  color: var(--text-faint);
+  border-radius: 12px;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.tabbar button .ico {
+  font-size: 20px;
+}
+.tabbar button.active {
+  color: var(--primary);
+}
+
+/* ── 카드 & 공통 ───────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 22px 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-title .count {
+  font-size: 12px;
+  color: var(--text-faint);
+  font-weight: 600;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.08s, background 0.15s;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn.primary {
+  background: var(--primary);
+  color: var(--primary-text);
+  border-color: transparent;
+}
+.btn.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--primary);
+}
+.btn.danger {
+  color: var(--danger);
+  border-color: transparent;
+  background: transparent;
+}
+.btn.block {
+  width: 100%;
+}
+.btn.sm {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.fab {
+  position: fixed;
+  right: max(16px, calc(50% - 360px + 16px));
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  box-shadow: 0 6px 20px rgba(124, 92, 255, 0.45);
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fab:active {
+  transform: scale(0.94);
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-faint);
+  padding: 48px 20px;
+}
+.empty .big {
+  font-size: 44px;
+  margin-bottom: 8px;
+}
+
+/* ── 폼 ────────────────────────────────────── */
+.field {
+  margin-bottom: 14px;
+}
+.field label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 11px 12px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--primary);
+}
+.field textarea {
+  resize: vertical;
+  min-height: 76px;
+}
+.row {
+  display: flex;
+  gap: 10px;
+}
+.row > .field {
+  flex: 1;
+}
+
+/* ── 책 리스트 ─────────────────────────────── */
+.book-row {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.book-row:last-child {
+  border-bottom: none;
+}
+.book-row:active {
+  background: var(--surface-2);
+}
+.cover {
+  width: 46px;
+  height: 62px;
+  border-radius: 8px;
+  background: var(--primary-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.book-info {
+  flex: 1;
+  min-width: 0;
+}
+.book-info .t {
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.book-info .a {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.book-info .meta {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-top: 3px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+/* 진행 바 */
+.progress {
+  height: 6px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  overflow: hidden;
+  margin-top: 6px;
+}
+.progress > span {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+/* ── 별점 ─────────────────────────────────── */
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  font-size: 20px;
+  user-select: none;
+}
+.stars button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  line-height: 1;
+  color: var(--text-faint);
+}
+.stars button.on {
+  color: var(--star);
+}
+.stars.readonly {
+  font-size: 15px;
+}
+
+/* ── 모달(상세/편집) ───────────────────────── */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fade 0.18s ease;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+.sheet {
+  background: var(--surface);
+  width: 100%;
+  max-width: 720px;
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: 20px 20px 0 0;
+  padding: 8px 18px calc(24px + env(safe-area-inset-bottom));
+  animation: slideup 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+@keyframes slideup {
+  from {
+    transform: translateY(30px);
+    opacity: 0.4;
+  }
+}
+.sheet .grabber {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 8px auto 14px;
+}
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.sheet-head h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+/* ── 통계 ─────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.stat {
+  padding: 16px 12px;
+  text-align: center;
+}
+.stat .num {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.stat .lab {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.goal-card {
+  padding: 18px;
+}
+.goal-ring {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.ring {
+  --p: 0;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: conic-gradient(
+    var(--primary) calc(var(--p) * 1%),
+    var(--surface-2) 0
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ring .inner {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.ring .inner .pct {
+  font-size: 20px;
+  font-weight: 800;
+}
+.ring .inner .cap {
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  padding: 8px 4px 0;
+}
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.bar-col .bar {
+  width: 70%;
+  max-width: 26px;
+  background: var(--primary);
+  border-radius: 5px 5px 0 0;
+  min-height: 3px;
+  transition: height 0.3s;
+}
+.bar-col .bar.zero {
+  background: var(--surface-2);
+}
+.bar-col .lab {
+  font-size: 10px;
+  color: var(--text-faint);
+}
+.bar-col .v {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+.mini-note {
+  font-size: 13px;
+  color: var(--text-dim);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.seg {
+  display: flex;
+  background: var(--surface-2);
+  border-radius: 12px;
+  padding: 3px;
+  gap: 3px;
+  margin: 4px 0 8px;
+}
+.seg button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  padding: 7px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.seg button.on {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+.link-book {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  margin-top: 6px;
+}
